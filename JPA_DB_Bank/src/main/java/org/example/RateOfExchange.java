@@ -2,29 +2,29 @@ package org.example;
 
 import javax.persistence.*;
 
-@Entity //аннотация, которая указывает Hibernate, что наш класс специальный и его обьекты нужно хранить в DataBase
-@Table(name = "Rates_of_exchange") //устанавливаем название таблице
+@Entity // Анотація, яка вказує Hibernate, що наш клас є спеціальним і його об'єкти потрібно зберігати в базі даних
+@Table(name = "Rates_of_exchange") // Встановлюємо назву таблиці
 public class RateOfExchange {
 
-    @Id //аннотация, с помощью которой задаем PrimaryKey
-    @GeneratedValue //автогенерация номера ID
-    @Column(name = "id_rate") //устанавливаем имя для колонки таблицы
+    @Id // Анотація, за допомогою якої задаємо PrimaryKey
+    @GeneratedValue // Автогенерація номера ID
+    @Column(name = "id_rate") // Встановлюємо ім'я для колонки таблиці
     private Long id;
 
-    @Column //колонка в таблице имеет название аналогично данному полю
+    @Column // Колонка в таблиці має назву аналогічно цьому полю
     private String currency;
 
-    @Column //колонка в таблице имеет название аналогично данному полю
+    @Column // Колонка в таблиці має назву аналогічно цьому полю
     private Double rateToUAH;
 
-    public RateOfExchange() {} //конструктор по-умолчанию
+    public RateOfExchange() {} // Конструктор за замовчуванням
 
-    public RateOfExchange(String currency, Double rateToUAH) { //конструктор данного класса с параметрами
+    public RateOfExchange(String currency, Double rateToUAH) { // Конструктор цього класу з параметрами
         this.currency = currency;
         this.rateToUAH = rateToUAH;
     }
 
-    //Геттеры и Сеттеры
+    // Геттери та Сеттери
     public Long getId() {
         return id;
     }
@@ -49,8 +49,8 @@ public class RateOfExchange {
         this.rateToUAH = rateToUAH;
     }
 
-    @Override //переопределяем метод
-    public String toString() { //к строковому виду
+    @Override // Переозначаємо метод
+    public String toString() { // У строковий вигляд
         return "RateOfExchange{" +
                 "id=" + id +
                 ", currency='" + currency + '\'' +
