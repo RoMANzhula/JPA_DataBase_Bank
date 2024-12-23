@@ -2,34 +2,34 @@ package org.example;
 
 import javax.persistence.*;
 
-@Entity //аннотация, которая указывает Hibernate, что наш класс специальный и его обьекты нужно хранить в DataBase
-@Table(name = "Accounts") //устанавливаем название таблице
+@Entity //анотація, яка вказує Hibernate, що наш клас є спеціальним і його об'єкти потрібно зберігати в базі даних
+@Table(name = "Accounts") //встановлюємо назву таблиці
 public class Account {
-    @Id //аннотация, с помощью которой задаем PrimaryKey
-    @GeneratedValue //автогенерация номера ID
-    @Column(name = "id_Account") //устанавливаем имя для колонки таблицы
+    @Id //анотація, за допомогою якої задаємо PrimaryKey
+    @GeneratedValue //автогенерація номера ID
+    @Column(name = "id_Account") //встановлюємо ім'я для стовпця таблиці
     private Long id;
 
-    @Column(name = "currency_account") //устанавливаем имя для колонки таблицы
+    @Column(name = "currency_account") //встановлюємо ім'я для стовпця таблиці
     private String currency;
 
-    @Column(name = "balance_account") //устанавливаем имя для колонки таблицы
+    @Column(name = "balance_account") //встановлюємо ім'я для стовпця таблиці
     private Double balance;
 
-    @ManyToOne //аннотация @ManyToOne говорит Hibernate, что много сущностей из других таблиц могут ссылаться на одну сущность Client
-    @JoinColumn(name = "id_Client", nullable = false) //аннотация @JoinColumn указывает имя колонки, из которой будет браться id,
-    //не может быть null
+    @ManyToOne //анотація @ManyToOne вказує Hibernate, що багато сутностей з інших таблиць можуть посилатися на одну сутність Client
+    @JoinColumn(name = "id_Client", nullable = false) //анотація @JoinColumn вказує ім'я стовпця, з якого буде братися id,
+    //не може бути null
     private Client client;
 
-    public Account() {} //конструктор по-умолчанию
+    public Account() {} //конструктор за замовчуванням
 
-    public Account(String currency, Double balance, Client client) { //конструктор данного класса с параметрами для будущих обьектов
+    public Account(String currency, Double balance, Client client) { //конструктор цього класу з параметрами для майбутніх об'єктів
         this.currency = currency;
         this.balance = balance;
         this.client = client;
     }
 
-    //Геттеры и Сеттеры
+    //Гетери та сетери
     public Long getId() {
         return id;
     }
@@ -62,16 +62,16 @@ public class Account {
         this.client = client;
     }
 
-    public void replenishBalance(Double balance) { // метод для пополнения баланса
+    public void replenishBalance(Double balance) { //метод для поповнення балансу
         this.balance += balance;
     }
 
-    public void withdrawFromBalance(Double balance) { //метод для снятия с баланса
+    public void withdrawFromBalance(Double balance) { //метод для зняття з балансу
         this.balance -= balance;
     }
 
-    @Override //переопределяем метод
-    public String toString() { //к строковому виду
+    @Override //перевизначаємо метод
+    public String toString() { //перетворення до рядкового вигляду
         return "Account{" +
                 "id=" + id +
                 ", currency='" + currency + '\'' +
