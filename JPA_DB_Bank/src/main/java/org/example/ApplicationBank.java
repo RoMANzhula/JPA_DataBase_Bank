@@ -5,48 +5,48 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ApplicationBank {
-    static EntityManagerFactory emf; //ссылочная переменная для коннекшина
-    static EntityManager em; //ссылочная переменная для управления сущностями 
+    static EntityManagerFactory emf; //змінна-посилання для з'єднання
+    static EntityManager em; //змінна-посилання для управління сутностями 
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in); //поток для ввода данных с клавиатуры
+        Scanner sc = new Scanner(System.in); //потік для введення даних з клавіатури
         try {
-            emf = Persistence.createEntityManagerFactory("JPATest4"); //выполняем соединение
-            em = emf.createEntityManager(); //инициализируем обьект для управления сущностями
+            emf = Persistence.createEntityManagerFactory("JPATest4"); //виконуємо з'єднання
+            em = emf.createEntityManager(); //ініціалізуємо об'єкт для управління сутностями
 
-            //заполним сразу таблицу с курсом валют тремя позициями и истановим им сразу курс по отношению к гривне
-            //далее можно будет через меню добавлять валюту в таблицу и устанавливать курс
-            em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-            RateOfExchange rateOfExchange1 = new RateOfExchange("USD", 36.56); //доллар
+            //заповнимо одразу таблицю з курсом валют трьома позиціями та встановимо їм курс щодо гривні
+            //далі можна буде через меню додавати валюту в таблицю та встановлювати курс
+            em.getTransaction().begin(); //запускаємо транзакцію для роботи з сутностями
+            RateOfExchange rateOfExchange1 = new RateOfExchange("USD", 36.56); //долар
             em.persist(rateOfExchange1);
-            RateOfExchange rateOfExchange2 = new RateOfExchange("EUR", 39.83); //евро
+            RateOfExchange rateOfExchange2 = new RateOfExchange("EUR", 39.83); //євро
             em.persist(rateOfExchange2);
-            RateOfExchange rateOfExchange3 = new RateOfExchange("UAH", 1.0); //гривна
+            RateOfExchange rateOfExchange3 = new RateOfExchange("UAH", 1.0); //гривня
             em.persist(rateOfExchange3);
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            em.getTransaction().commit(); //завершуємо транзакцію для роботи з сутностями
 
             try {
                 while (true) {
-                    System.out.println("1: add client"); //добавить клиента
-                    System.out.println("2: delete client"); //удалить клинента
-                    System.out.println("3: view clients"); //просмотреть всех клиентов
-                    System.out.println("4: view transactions"); //просмотреть транзакции
-                    System.out.println("5: add account"); //создание счета с первым пополнением
-                    System.out.println("6: top up account"); //пополнить счет
-                    System.out.println("7: delete account"); //удалить счет
-                    System.out.println("8: view accounts"); //просмотреть все счета
-                    System.out.println("9: add rate of exchange"); //добавить валюту с ее курсом
-                    System.out.println("10: delete rate of exchange"); //удалить валюту с ее курсом
-                    System.out.println("11: view rates of exchange"); //просмотреть все валюты с их курсом
-                    System.out.println("12: transfer funds"); //переводить средства
-                    System.out.println("13: transfer funds with conversion"); //переводить средства с конвертацией
-                    System.out.println("14: transfer funds with conversion for single Client"); //переводить средства с конвертацией
-                    System.out.println("15: view total funds single client in UAH"); //просмотреть суммарно средства одного клиента в гривне
+                    System.out.println("1: додати клієнта"); //додати клієнта
+                    System.out.println("2: видалити клієнта"); //видалити клієнта
+                    System.out.println("3: переглянути клієнтів"); //переглянути всіх клієнтів
+                    System.out.println("4: переглянути транзакції"); //переглянути транзакції
+                    System.out.println("5: додати рахунок"); //створення рахунку з першим поповненням
+                    System.out.println("6: поповнити рахунок"); //поповнити рахунок
+                    System.out.println("7: видалити рахунок"); //видалити рахунок
+                    System.out.println("8: переглянути рахунки"); //переглянути всі рахунки
+                    System.out.println("9: додати валюту з її курсом"); //додати валюту з її курсом
+                    System.out.println("10: видалити валюту з її курсом"); //видалити валюту з її курсом
+                    System.out.println("11: переглянути всі валюти з їх курсом"); //переглянути всі валюти з їх курсом
+                    System.out.println("12: перевести кошти"); //перевести кошти
+                    System.out.println("13: перевести кошти з конвертацією"); //перевести кошти з конвертацією
+                    System.out.println("14: перевести кошти з конвертацією для одного клієнта"); //перевести кошти з конвертацією
+                    System.out.println("15: переглянути загальну суму коштів одного клієнта в гривні"); //переглянути сумарно кошти одного клієнта в гривні
 
                     System.out.print("-> ");
 
                     String str = sc.nextLine();
-                    switch (str) { //блок для общения с пользователем (меню нашего приложения)
+                    switch (str) { //блок для взаємодії з користувачем (меню нашого застосунку)
                         case "1":
                             addClient(sc);
                             break;
@@ -97,7 +97,7 @@ public class ApplicationBank {
                             return;
                     }
                 }
-            } finally { //блок для закрытия потоков и соединений
+            } finally { //блок для закриття потоків і з'єднань
                 sc.close();
                 em.close();
                 emf.close();
@@ -108,124 +108,121 @@ public class ApplicationBank {
         }
     }
 
-    private static void addClient(Scanner sc) { //метод для добавления клиента в таблицу
-        System.out.print("Enter client name: "); //просим ввести имя клиента
-        String name = sc.nextLine(); //читаем введенное имя
+    private static void addClient(Scanner sc) { // Метод для додавання клієнта до таблиці
+    System.out.print("Введіть ім'я клієнта: "); // Просимо ввести ім'я клієнта
+    String name = sc.nextLine(); // Зчитуємо введене ім'я
 
-        System.out.print("Enter client phone: "); //просим ввести номер телефона
-        String strPhone = sc.nextLine(); //читаем введенный номер телефона
-        int phone = Integer.parseInt(strPhone); //парсим номер телефона в число
+    System.out.print("Введіть номер телефону клієнта: "); // Просимо ввести номер телефону
+    String strPhone = sc.nextLine(); // Зчитуємо введений номер телефону
+    int phone = Integer.parseInt(strPhone); // Перетворюємо номер телефону на число
 
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями //запускаем транзакцию
+    em.getTransaction().begin(); // Розпочинаємо транзакцію для роботи зі сутностями
+    try {
+        Client client = new Client(name, phone); // Створюємо нового клієнта з переданими параметрами конструктора
+        em.persist(client); // Зберігаємо об'єкт у контексті
+        em.getTransaction().commit(); // Завершуємо транзакцію
+
+        System.out.println(client.getId()); // Виводимо ID нового клієнта
+    } catch (Exception exception) {
+        em.getTransaction().rollback(); // У разі помилки скасовуємо всі зміни
+    }
+}
+
+private static void deleteClient(Scanner sc) { // Метод для видалення клієнта з таблиці
+    System.out.print("Введіть ID клієнта: "); // Просимо ввести ID клієнта
+    String strId = sc.nextLine(); // Зчитуємо введений ID
+    long id = Long.parseLong(strId); // Перетворюємо ID у число
+
+    Client client = em.getReference(Client.class, id); // Шукаємо клієнта за ID
+    if (client == null) { // Якщо клієнт не знайдений
+        System.out.println("Клієнта не знайдено!"); // Повідомляємо користувача
+        return; // Повертаємось до меню
+    }
+
+    em.getTransaction().begin(); // Розпочинаємо транзакцію
+    try {
+        em.remove(client); // Видаляємо клієнта
+        em.getTransaction().commit(); // Завершуємо транзакцію
+    } catch (Exception ex) {
+        em.getTransaction().rollback(); // У разі помилки скасовуємо всі зміни
+    }
+}
+
+private static void viewClients() { // Метод для перегляду всіх клієнтів у таблиці
+    String queryClients = "SELECT c FROM Client c"; // Запит для отримання всіх клієнтів
+    Query query = em.createQuery(queryClients, Client.class); // Виконуємо запит
+    List<Client> list = (List<Client>) query.getResultList(); // Формуємо список результатів
+
+    for (Client client : list) { // Для кожного клієнта зі списку
+        System.out.println(client); // Виводимо на консоль
+    }
+}
+
+private static void viewTransactions() { // Метод для перегляду всіх транзакцій
+    String queryTransactions = "SELECT t FROM Transaction t"; // Запит для отримання транзакцій
+    Query query = em.createQuery(queryTransactions, Transaction.class); // Виконуємо запит
+    List<Transaction> list = (List<Transaction>) query.getResultList(); // Формуємо список результатів
+
+    for (Transaction transaction : list) { // Для кожної транзакції зі списку
+        System.out.println(transaction); // Виводимо на консоль
+    }
+}
+
+private static void addAccount(Scanner sc) { // Метод для створення рахунку за іменем клієнта (з першим поповненням)
+    System.out.print("Введіть ім'я клієнта: "); // Просимо ввести ім'я клієнта
+    String clientName = sc.nextLine(); // Зчитуємо введене ім'я
+
+    Client client = null; // Створюємо посилальну змінну для клієнта
+    try {
+        String queryNameClient = "SELECT c FROM Client c WHERE c.name = :name"; // Запит для пошуку клієнта
+        Query query = em.createQuery(queryNameClient); // Формуємо запит
+        query.setParameter("name", clientName); // Підставляємо ім'я клієнта
+        client = (Client) query.getSingleResult(); // Отримуємо клієнта за результатами запиту
+
+        System.out.print("Введіть суму: "); // Просимо ввести суму для поповнення
+        String strSum = sc.nextLine(); // Зчитуємо введену суму
+        double sum = Double.parseDouble(strSum); // Перетворюємо суму на число
+
+        em.getTransaction().begin(); // Розпочинаємо транзакцію
+        Account account = new Account(selectCurrency(), sum, client); // Створюємо новий рахунок
+        em.persist(account); // Зберігаємо рахунок
+        em.getTransaction().commit(); // Завершуємо транзакцію
+        System.out.println("Готово.");
+
+    } catch (NoResultException exception) { // Якщо клієнта не знайдено
+        System.out.println("Клієнта не знайдено!");
+        return;
+    } catch (NonUniqueResultException exception) { // Якщо знайдено декілька клієнтів
+        System.out.println("Знайдено декілька клієнтів з однаковим ім'ям!");
+        return;
+    }
+}
+
+    private static void topUpAccount(Scanner sc) { //метод для поповнення рахунку
+        double thisBalance = 0.0; //створюємо змінну для суми поповнення
+        System.out.print("Enter account id: "); //просимо ввести id рахунку
+        String strAccountId = sc.nextLine(); //читаємо з консолі id рахунку
+        long accountId = Long.parseLong(strAccountId); //парсимо id рахунку
+
+        Account account = em.find(Account.class, accountId); //виконуємо пошук по id рахунку
+        if (account == null) { //якщо рахунок не знайдено
+            System.out.println("Account not found!"); //рахунок не знайдено
+            return; //повертаємося в меню
+        }
+
+        System.out.print("Enter sum: "); //просимо ввести суму поповнення
+        String strSum = sc.nextLine(); //читаємо з консолі суму поповнення
+        double balance = Double.parseDouble(strSum); //парсимо суму поповнення
+
+        em.getTransaction().begin(); //запускаємо транзакцію для роботи з сутностями
         try {
-            Client client = new Client(name, phone); //оздаем нового клиента с аргументами для параметров конструктора
-            em.persist(client); //помещаем сущность к контекст
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            Query query; //посилання на запит
+            String queryCurrency = "SELECT r FROM RateOfExchange r WHERE r.currency = :currency"; //строка-запит для курсу валют по назві стовпця "валюта"
 
-            System.out.println(client.getId());
-        } catch (Exception exception) {
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
-        }
-    }
-
-    private static void deleteClient(Scanner sc) { //метод для удаления клиента из таблицы
-        System.out.print("Enter client id: "); //просим пользователя ввести id клиента
-        String strId = sc.nextLine(); //читаем с консоли id клиента
-        long id = Long.parseLong(strId); //парсим id клиента в число
-
-        Client client = em.getReference(Client.class, id); //выполняем поиск по id
-        if (client == null) { //если нет
-            System.out.println("Client not found!"); //печатаем - клиент не найден
-            return; //вернуться в меню
-        }
-
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-        try {
-            em.remove(client); //удаляем клиента
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
-        } catch (Exception ex) {
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
-        }
-    }
-
-    private static void viewClients() { //метод для демонстрации всех клиентов из таблицы
-        String queryClients = "SELECT c FROM Client c"; //строка-запрос для таблицы Клиент
-        Query query = em.createQuery(queryClients, Client.class); //запрос
-        List<Client> list = (List<Client>) query.getResultList(); //создаем список для результатов поиска
-
-        for (Client client : list) //для каждого клиента из списка
-            System.out.println(client); //выводим на консоль
-    }
-
-    private static void viewTransactions() { //метод для просмотра всех транзакций
-        String queryTransactions = "SELECT t FROM Transaction t"; //строка запрос для поиска в таблице Транзакции
-        Query query = em.createQuery(queryTransactions, Transaction.class); //запрос
-        List<Transaction> list = (List<Transaction>) query.getResultList(); //создаем список для результатов поиска
-
-        for (Transaction transaction : list) { //для каждой транзакции из списка
-            System.out.println(transaction); //выводим на консоль
-        }
-    }
-
-    private static void addAccount(Scanner sc) { //метод для создания счета по имени Клиента (с первым пополнением)
-        System.out.print("Enter client name: "); //просим ввести имя клиента
-        String clientName = sc.nextLine(); //читаем с консоли имя клиента
-
-        Client client = null; //создаем ссыл.переменную типа класса Клиент
-        try {
-            String queryNameClient = "SELECT c FROM Client c WHERE c.name = :name"; //строка-запрос
-            Query query = em.createQuery(queryNameClient); //создаем запрос
-            query.setParameter("name", clientName); //заменяем имя на параметр(введенное имя с клавиатуры)
-            client = (Client) query.getSingleResult(); //в ссыл.переменную кладем одиночный результат от запроса
-
-
-            System.out.print("Enter sum: "); //просим ввести сумму, которую кладем на счет
-            String strSum = sc.nextLine(); //читаем сумму
-            double sum = Double.parseDouble(strSum); //парсим сумму в число
-
-            em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-            Account account = new Account(selectCurrency(), sum, client); //создаем новый счет с аргументами для параметров
-
-            em.persist(account); //сохраняем обьект (счет)
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
-            System.out.println("Ok.");
-
-            //тут два исключения, которые обязательны для перехвата из-за метода getSingleResult()
-        } catch (NoResultException exception) {
-            System.out.println("Client not found!");
-            return;
-        } catch (NonUniqueResultException exception) {
-            System.out.println("Non unique client found!");
-            return;
-        }
-    }
-
-    private static void topUpAccount(Scanner sc) { //метод для пополнения счета
-        double thisBalance = 0.0; //создаем переменную для суммы пополнения
-        System.out.print("Enter account id: "); //просим ввести id счета
-        String strAccountId = sc.nextLine(); //читаем с консоли id счета
-        long accountId = Long.parseLong(strAccountId); //парсим id счета
-
-        Account account = em.find(Account.class, accountId); //выполняем поиск по id счета
-        if (account == null) { //если нет, то
-            System.out.println("Account not found!"); //счет не найден
-            return; //вернуться в меню
-        }
-
-        System.out.print("Enter sum: "); //просим ввести сумму пополнения
-        String strSum = sc.nextLine(); //читаем с консоли сумму пополнения
-        double balance = Double.parseDouble(strSum); //парсим сумму пополнения
-
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-        try {
-            Query query; //ссылка на запрос
-            String queryCurrency = "SELECT r FROM RateOfExchange r WHERE r.currency = :currency"; //строка-запрос в таблице
-            //курса валют по названию столбца валюта
-
-            if (!selectCurrency().equals(account.getCurrency())) { //если валюта из счета не равна валюте из метода по возврату валюту, то
-                query = em.createQuery(queryCurrency); //запрос
-                query.setParameter("currency", account.getCurrency()); //подменяем строку на параметр
-                RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
+            if (!selectCurrency().equals(account.getCurrency())) { //якщо валюта з рахунку не співпадає з валютою з методу по поверненню валюти
+                query = em.createQuery(queryCurrency); //створюємо запит
+                query.setParameter("currency", account.getCurrency()); //підставляємо параметр
+                RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //отримуємо одиночний результат
                 double balanceOfAccount = rateOfExchange.getRateToUAH();
 
                 if (selectCurrency().equals("UAH")) {
@@ -234,367 +231,351 @@ public class ApplicationBank {
                     thisBalance = balance;
                 }
                 account.replenishBalance(thisBalance);
-                em.persist(account); //сохраняем обьект
+                em.persist(account); //зберігаємо об'єкт
             } else {
                 thisBalance = balance;
                 account.replenishBalance(thisBalance);
-                em.persist(account); //сохраняем обьект
+                em.persist(account); //зберігаємо об'єкт
             }
 
-            Transaction transaction = new Transaction(account.getClient(), account, null, thisBalance); //для пополнения
-            // счета из терминалов
-            em.persist(transaction); //сохраняем обьект
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            Transaction transaction = new Transaction(account.getClient(), account, null, thisBalance); //для поповнення рахунку з терміналів
+            em.persist(transaction); //зберігаємо об'єкт
+            em.getTransaction().commit(); //завершуємо транзакцію для роботи з сутностями
             System.out.println("Ok!");
         } catch (Exception exception) {
             exception.printStackTrace();
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
-            return; //вернуться в меню
+            em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни в сутностях
+            return; //повертаємось в меню
         }
     }
 
-    private static void deleteAccount(Scanner sc) { //метод для удаления счета из таблицы
-        System.out.print("Enter account id: "); //просим ввести id счета
-        String strId = sc.nextLine(); //читаем с консоли id счета
-        long id = Long.parseLong(strId); //парсим id счета
+    private static void deleteAccount(Scanner sc) { //метод для видалення рахунку з таблиці
+        System.out.print("Enter account id: "); //просимо ввести id рахунку
+        String strId = sc.nextLine(); //читаємо з консолі id рахунку
+        long id = Long.parseLong(strId); //парсимо id рахунку
 
-        Account account = em.getReference(Account.class, id); //выполняем поиск по id счета
-        if (account == null) { //если нет
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
+        Account account = em.getReference(Account.class, id); //виконуємо пошук по id рахунку
+        if (account == null) { //якщо рахунок не знайдений
+            System.out.println("Account not found!"); //рахунок не знайдено
+            return; //повертаємось в меню
         }
 
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
+        em.getTransaction().begin(); //запускаємо транзакцію для роботи з сутностями
         try {
-            em.remove(account); //удаляем обьект
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            em.remove(account); //видаляємо об'єкт
+            em.getTransaction().commit(); //завершуємо транзакцію для роботи з сутностями
         } catch (Exception ex) {
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
+            em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни в сутностях
         }
     }
 
-    private static void viewAccounts() { //метод для демонстрации всех счетов из таблицы
-        String queryAccounts = "SELECT a FROM Account a"; //строка-запрос для поиска в таблице счетов
-        Query query = em.createQuery(queryAccounts, Account.class); //запрос
-        List<Account> list = (List<Account>) query.getResultList(); //создаем список для результатов поиска
+    private static void viewAccounts() { //метод для демонстрації всіх рахунків з таблиці
+        String queryAccounts = "SELECT a FROM Account a"; //строка-запит для пошуку в таблиці рахунків
+        Query query = em.createQuery(queryAccounts, Account.class); //запит
+        List<Account> list = (List<Account>) query.getResultList(); //створюємо список для результатів пошуку
 
-        for (Account account : list) //для каждого счета из списка
-            System.out.println(account); //вывести на экран счет
+        for (Account account : list) //для кожного рахунку зі списку
+            System.out.println(account); //вивести на екран рахунок
     }
 
-    private static void addRateOfExchange(Scanner sc) { //метод для добавления курса валют в таблицу
-        System.out.print("Enter currency: "); //просим ввести валюту
-        String currency = sc.nextLine(); //читаем с консоли валюту
+    private static void addRateOfExchange(Scanner sc) { //метод для додавання курсу валют в таблицю
+        System.out.print("Enter currency: "); //просимо ввести валюту
+        String currency = sc.nextLine(); //читаємо з консолі валюту
 
-        System.out.print("Enter rate to UAH: "); //просим ввести курс по отношению к гривне
-        String strRateToUAH = sc.nextLine(); //читаем с консоли веденный курс к гривне
-        double rateToUAH = Double.parseDouble(strRateToUAH); //парсим курс к гривне
+        System.out.print("Enter rate to UAH: "); //просимо ввести курс до гривні
+        String strRateToUAH = sc.nextLine(); //читаємо з консолі введений курс до гривні
+        double rateToUAH = Double.parseDouble(strRateToUAH); //парсимо курс до гривні
 
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
+        em.getTransaction().begin(); //запускаємо транзакцію для роботи з сутностями
         try {
-            RateOfExchange rateOfExchange = new RateOfExchange(currency, rateToUAH); //создаем новый курс валют с аргументами для параметров
-            em.persist(rateOfExchange); //сохраняем обьект
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            RateOfExchange rateOfExchange = new RateOfExchange(currency, rateToUAH); //створюємо новий курс валют з параметрами
+            em.persist(rateOfExchange); //зберігаємо об'єкт
+            em.getTransaction().commit(); //завершуємо транзакцію для роботи з сутностями
 
-            System.out.println(rateOfExchange.getId()); //печатаем id курса валют
+            System.out.println(rateOfExchange.getId()); //друкуємо id курсу валют
         } catch (Exception exception) {
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
+            em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни в сутностях
         }
     }
 
-    private static void deleteRateOfExchange(Scanner sc) { //метод для удаления клиента из таблицы
-        System.out.print("Enter rate of exchange id: "); //просим ввести id курса валют
-        String strId = sc.nextLine(); //читаем id курса валют введенный пользоватеем
-        long id = Long.parseLong(strId); //парсим id курса валют
+    private static void deleteRateOfExchange(Scanner sc) { //метод для видалення курсу валют з таблиці
+        System.out.print("Enter rate of exchange id: "); //просимо ввести id курсу валют
+        String strId = sc.nextLine(); //читаємо id курсу валют введений користувачем
+        long id = Long.parseLong(strId); //парсимо id курсу валют
 
-        RateOfExchange rateOfExchange = em.getReference(RateOfExchange.class, id); //выполняем поиск по id курса валют
-        if (rateOfExchange == null) { //если нет, то
-            System.out.println("Rate of exchange not found!"); //пишем курс валют не найден
-            return; //вернуться в меню
+        RateOfExchange rateOfExchange = em.getReference(RateOfExchange.class, id); //виконуємо пошук по id курсу валют
+        if (rateOfExchange == null) { //якщо курс валют не знайдений
+            System.out.println("Rate of exchange not found!"); //курс валют не знайдено
+            return; //повертаємось в меню
         }
 
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
+        em.getTransaction().begin(); //запускаємо транзакцію для роботи з сутностями
         try {
-            em.remove(rateOfExchange); //удаляем обьект
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            em.remove(rateOfExchange); //видаляємо об'єкт
+            em.getTransaction().commit(); //завершуємо транзакцію для роботи з сутностями
         } catch (Exception ex) {
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
+            em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни в сутностях
         }
     }
 
-    private static void viewRateOfExchanges() { //метод для демонстрации всех клиентов из таблицы
-        String queryRate = "SELECT r FROM RateOfExchange r"; //строка-запрос для поиска в таблице курс валют
-        Query query = em.createQuery(queryRate, RateOfExchange.class); //запрос
-        List<RateOfExchange> list = (List<RateOfExchange>) query.getResultList(); //создаем список для результатов запроса
+    private static void viewRateOfExchanges() { //метод для демонстрації всіх курсів валют з таблиці
+        String queryRate = "SELECT r FROM RateOfExchange r"; //строка-запит для пошуку в таблиці курсів валют
+        Query query = em.createQuery(queryRate, RateOfExchange.class); //запит
+        List<RateOfExchange> list = (List<RateOfExchange>) query.getResultList(); //створюємо список для результатів запиту
 
-        for (RateOfExchange rateOfExchange : list) //для каждого курса валют из списка
-            System.out.println(rateOfExchange); //выводим на печать
+        for (RateOfExchange rateOfExchange : list) //для кожного курсу валют зі списку
+            System.out.println(rateOfExchange); //вивести на екран
     }
 
-    private static void transferFunds(Scanner sc) { //метод для перевода денег между счетами с одинаковой валютой
-        System.out.print("Enter your sender account id: "); //просим ввести id счета-отправителя
-        String strYourSenderAccountId = sc.nextLine(); //читаем id счета-отправителя
-        Long yourSenderAccountId = Long.parseLong(strYourSenderAccountId); //парсим id счета-отправителя
+    private static void transferFunds(Scanner sc) { //метод для переведення грошей між рахунками з однаковою валютою
+    System.out.print("Enter your sender account id: "); //просимо ввести id рахунку-відправника
+    String strYourSenderAccountId = sc.nextLine(); //зчитуємо id рахунку-відправника
+    Long yourSenderAccountId = Long.parseLong(strYourSenderAccountId); //парсимо id рахунку-відправника
 
-        Account senderAccount = em.find(Account.class, yourSenderAccountId); //выполняем поиск по id счета-отправителя
-        if (senderAccount == null) { //если нет
-            System.out.println("Account not found!"); //то пишем - счет не найден
-            return; //вернуться в меню
-        }
-
-        System.out.print("Enter beneficiary account id: "); //просим ввести id счета-получателя
-        String strBeneficiaryAccountId = sc.nextLine(); //считываем id счета-получателя
-        Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); //парсим id счет-получателя в число
-
-        Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId);
-        if (beneficiaryAccount == null) { //если счет-получатель отсутствует, то
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
-        }
-
-        if (senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { //если валюта счета-отправителя равна
-            //валюте счета-получателя, то
-            System.out.print("Enter sum for transfer: "); //просим ввести сумму для перевода
-            String strSum = sc.nextLine(); //читаем сумму введенную пользователем
-            double sum = Double.parseDouble(strSum); //парсим сумму в число
-            if (sum > senderAccount.getBalance()) { //если введенная сумма больше чем баланс счета, то
-                System.out.println("Error! Insufficiently money!"); //пишем - Ошибка! Недостаточно денег!
-                return; //вернуться в меню
-            }
-
-            em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-            try {
-                Transaction transaction = new Transaction(senderAccount.getClient(), beneficiaryAccount, senderAccount, sum);
-                em.persist(transaction); //сохраняем обьект
-
-                beneficiaryAccount.replenishBalance(sum); //к счету-получателю добавляем сумму
-                senderAccount.withdrawFromBalance(sum); //от счета отправителя отнимаем сумму
-
-                em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
-                System.out.println("Ok!");
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
-                return;
-            }
-        } else {
-            System.out.println("Enter the account with the currency that matches!"); //печатаем - введите счет с валютой, которая
-            //соответствует
-            return; //вернуться в меню
-        }
+    Account senderAccount = em.find(Account.class, yourSenderAccountId); //шукаємо рахунок за id
+    if (senderAccount == null) { //якщо не знайдено
+        System.out.println("Account not found!"); //виводимо - рахунок не знайдено
+        return; //повертаємось у меню
     }
 
-    private static void transferFundsWithConversion(Scanner sc) { //метод для перевода средств с адаптивной конвертацией валюты
-        System.out.print("Enter sender account id: "); //просим ввести id счета-отправителя
-        String strSenderAccountId = sc.nextLine(); //считываем id счета-отправителя
-        Long senderAccountId = Long.parseLong(strSenderAccountId); //парсим id счет-отправителя в число
+    System.out.print("Enter beneficiary account id: "); //просимо ввести id рахунку-одержувача
+    String strBeneficiaryAccountId = sc.nextLine(); //зчитуємо id рахунку-одержувача
+    Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); //парсимо id рахунку-одержувача у число
 
-        Account senderAccount = em.find(Account.class, senderAccountId); //находим счет-отправитель по его id
-        if (senderAccount == null) { //если счет-отправитель отсутствует, то
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
+    Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId); //шукаємо рахунок-одержувача за id
+    if (beneficiaryAccount == null) { //якщо рахунок-одержувач відсутній
+        System.out.println("Account not found!"); //виводимо - рахунок не знайдено
+        return; //повертаємось у меню
+    }
+
+    if (senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { //якщо валюта рахунку-відправника дорівнює
+        //валюті рахунку-одержувача
+        System.out.print("Enter sum for transfer: "); //просимо ввести суму для переведення
+        String strSum = sc.nextLine(); //зчитуємо суму, введену користувачем
+        double sum = Double.parseDouble(strSum); //парсимо суму у число
+        if (sum > senderAccount.getBalance()) { //якщо введена сума більша за баланс рахунку
+            System.out.println("Error! Insufficiently money!"); //виводимо - Помилка! Недостатньо коштів!
+            return; //повертаємось у меню
         }
 
-        System.out.print("Enter beneficiary account id: "); //просим ввести id счета-получателя
-        String strBeneficiaryAccountId = sc.nextLine(); //считываем id счета-получателя
-        Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); //парсим id счет-получателя в число
-
-        Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId); //находим счет-получатель по его id
-        if (beneficiaryAccount == null) { //если счет-получатель отсутствует, то
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
-        }
-
-        System.out.print("Enter sum for transfer: "); //просим ввести сумму для перевода между счетами
-        String strSum = sc.nextLine(); //читаем ответ пользователя
-        double sum = Double.parseDouble(strSum); //парсим переменную - сумма средств для перевода
-        if (sum > senderAccount.getBalance()) { //если сумма перевода больше суммы на счете-отправителе, то
-            System.out.println("Error! Insufficiently money!"); //Ошибка! Недостаточно средств!
-            return; //возвращаемся в меню
-        }
-
-        em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
+        em.getTransaction().begin(); //починаємо транзакцію для роботи з об'єктами
         try {
-            Transaction transaction = new Transaction(senderAccount.getClient(), senderAccount, beneficiaryAccount, sum); //пишем транзакцию
-            em.persist(transaction); //сохраняем обьект
+            Transaction transaction = new Transaction(senderAccount.getClient(), beneficiaryAccount, senderAccount, sum);
+            em.persist(transaction); //зберігаємо об'єкт
 
-            if (!senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { //если валюты между счетами не совпадают, то
-                String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; //строка запроса в
-                //таблицу курса валют - запрос на название валюты
+            beneficiaryAccount.replenishBalance(sum); //додаємо суму до рахунку-одержувача
+            senderAccount.withdrawFromBalance(sum); //знімаємо суму з рахунку-відправника
 
-                Query query = em.createQuery(queryRateOfExchange); //запрос
-                query.setParameter("currency", senderAccount.getCurrency()); //для счета-отправителя
-                RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
-                double senderAccountRate = rateOfExchange.getRateToUAH(); //получаем курс счета-отправителя относительно к гривне
-
-                query.setParameter("currency", beneficiaryAccount.getCurrency()); //для счета-получателя
-                rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
-                double beneficiaryAccountRate = rateOfExchange.getRateToUAH(); //получаем курс счета-получателя относительно к гривне
-
-                double thisBalance; //буфер для математических операций с средствами
-                if (senderAccount.getCurrency().equals("UAH")) { //если валюта счета-отправителя является гривневой, то
-                    thisBalance = sum / beneficiaryAccountRate; //инициализируем буфер = сумму перевода делим на курс счета-получателя
-                    //относительно к гривне (т.е. конвертируем гривну к валюте, которая будет на счете-получателе)
-                } else { //иначе
-                    thisBalance = sum * senderAccountRate / beneficiaryAccountRate; //инициализируем буфер = сумму перевода
-                    //умножаем на курс к гривне счета-отправителя и делим ее на курс к гривне счета-получателя (т.е. если мы
-                    //отправлем 100 долларов на счет у которого валюта в евро - (100 * 36,56 / 39,83 = 91,79 евро) - получаем 91,79 евро)
-                }
-                senderAccount.withdrawFromBalance(sum); //со счета-отправителя снимаются отправленные средства(без конвертации)
-                beneficiaryAccount.replenishBalance(thisBalance); //на счет-получатель добавляются средства из буфера(с конвертацией)
-            } else { //иначе(т.е. если валюты совпадают между счетами)
-                senderAccount.withdrawFromBalance(sum); //со счета-отправителя снимаются отправленные средства(без конвертации)
-                beneficiaryAccount.replenishBalance(sum); //на счета-получатель добавляются отправленные средства(без конвертации)
-            }
-            em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
+            em.getTransaction().commit(); //завершуємо транзакцію
             System.out.println("Ok!");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни
             return;
         }
-    }
-
-    private static void transferFundsWithConversionForSingleClient(Scanner sc) {
-        System.out.print("Enter sender account id: "); //просим ввести id счета-отправителя
-        String strSenderAccountId = sc.nextLine(); //считываем id счета-отправителя
-        Long senderAccountId = Long.parseLong(strSenderAccountId); //парсим id счет-отправителя в число
-
-        Account senderAccount = em.find(Account.class, senderAccountId); //находим счет-отправитель по его id
-        if (senderAccount == null) { //если счет-отправитель отсутствует, то
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
-        }
-
-        System.out.print("Enter beneficiary account id: "); //просим ввести id счета-получателя
-        String strBeneficiaryAccountId = sc.nextLine(); //считываем id счета-получателя
-        Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); //парсим id счет-получателя в число
-
-        Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId); //находим счет-получатель по его id
-        if (beneficiaryAccount == null) { //если счет-получатель отсутствует, то
-            System.out.println("Account not found!"); //пишем - счет не найден
-            return; //вернуться в меню
-        }
-
-        if (senderAccount.getClient().equals(beneficiaryAccount.getClient())) { //если счета пренадлежат одному клиенту (находятся
-            //в рамокач счетов одного клиента(пользователя))
-
-            System.out.print("Enter sum for transfer: "); //просим ввести сумму для перевода между счетами
-            String strSum = sc.nextLine(); //читаем ответ пользователя
-            double sum = Double.parseDouble(strSum); //парсим переменную - сумма средств для перевода
-            if (sum > senderAccount.getBalance()) { //если сумма перевода больше суммы на счете-отправителе, то
-                System.out.println("Error! Insufficiently money!"); //Ошибка! Недостаточно средств!
-                return; //возвращаемся в меню
-            }
-
-            em.getTransaction().begin(); //запускаем транзакцию для работы с сущностями
-            try {
-                Transaction transaction = new Transaction(senderAccount.getClient(), senderAccount, beneficiaryAccount, sum); //пишем транзакцию
-                em.persist(transaction); //сохраняем обьект
-
-                if (!senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { //если валюты между счетами не совпадают, то
-                    String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; //строка запроса в
-                    //таблицу курса валют - запрос на название валюты
-
-                    Query query = em.createQuery(queryRateOfExchange); //запрос
-                    query.setParameter("currency", senderAccount.getCurrency()); //для счета-отправителя
-                    RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
-                    double senderAccountRate = rateOfExchange.getRateToUAH(); //получаем курс счета-отправителя относительно к гривне
-
-                    query.setParameter("currency", beneficiaryAccount.getCurrency()); //для счета-получателя
-                    rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
-                    double beneficiaryAccountRate = rateOfExchange.getRateToUAH(); //получаем курс счета-получателя относительно к гривне
-
-                    double thisBalance; //буфер для математических операций с средствами
-                    if (senderAccount.getCurrency().equals("UAH")) { //если валюта счета-отправителя является гривневой, то
-                        thisBalance = sum / beneficiaryAccountRate; //инициализируем буфер = сумму перевода делим на курс счета-получателя
-                        //относительно к гривне (т.е. конвертируем гривну к валюте, которая будет на счете-получателе)
-                    } else { //иначе
-                        thisBalance = sum * senderAccountRate / beneficiaryAccountRate; //инициализируем буфер = сумму перевода
-                        //умножаем на курс к гривне счета-отправителя и делим ее на курс к гривне счета-получателя (т.е. если мы
-                        //отправлем 100 долларов на счет у которого валюта в евро - (100 * 36,56 / 39,83 = 91,79 евро) - получаем 91,79 евро)
-                    }
-                    senderAccount.withdrawFromBalance(sum); //со счета-отправителя снимаются отправленные средства(без конвертации)
-                    beneficiaryAccount.replenishBalance(thisBalance); //на счет-получатель добавляются средства из буфера(с конвертацией)
-                } else { //иначе(т.е. если валюты совпадают между счетами)
-                    senderAccount.withdrawFromBalance(sum); //со счета-отправителя снимаются отправленные средства(без конвертации)
-                    beneficiaryAccount.replenishBalance(sum); //на счета-получатель добавляются отправленные средства(без конвертации)
-                }
-                em.getTransaction().commit(); //завершаем транзакцию для работы с сущностями
-                System.out.println("Ok!");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                em.getTransaction().rollback(); //если возникла ошибка - отменяем все действия в изменениях сущностей
-                return;
-            }
-        } else { //иначе (т.е. у счетов разные клиенты)
-            System.out.println("Error! Clients don't match!"); //печатаем - ошибка! клиенты не совпадают!
-        }
-    }
-
-    private static void totalFundsSingleClientInUAH(Scanner sc) { //метод для отображения суммарных средств на счету одного
-        // пользователя в UAH (расчет по курсу)
-        System.out.print("Enter client name: "); //просим ввести имя клиента
-        String strClientName = sc.nextLine(); //читаем имя введенное пользователем
-
-        String queryAccounts = "SELECT a FROM Account a"; //строка-запрос к таблице счетов
-        Query query = em.createQuery(queryAccounts, Account.class); //запрос
-        List<Account> list = (List<Account>) query.getResultList(); //создаем список для результатов запроса
-
-        double totalFunds = 0.0; //создаем переменную суммарноСредств
-
-        for (Account account : list) { //для каждого счета из списка счетов(из таблицы)
-            if (account.getClient().getName().equals(strClientName)) { //если имя существующего счета совпадает с именем
-                //введенным пользователем, то
-                account = em.getReference(Account.class, account.getId()); //выполняем поиск по id счета
-                String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; //строка запроса в
-                //таблицу курса валют - запрос на название валюты
-                query = em.createQuery(queryRateOfExchange); //запрос
-                query.setParameter("currency", account.getCurrency()); //для счета
-                RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //получаем одиночный результат
-                double thisAccountRate = rateOfExchange.getRateToUAH(); //получаем курс счета относительно к гривне
-                double balanceInUAH = thisAccountRate * account.getBalance(); //создаем переменную баланс в гривне = курс счета
-                //к гривне умножаем на баланс счета
-                totalFunds += balanceInUAH; //с каждым дополнительным счетом у одного клента - увеличиваем суммарные средства клиента
-                System.out.println(account); //для сверки выводим счет
-            } else { //иначе
-                System.out.println("Account not found!"); //печатаем - счет не найден
-                return; //возвращаемся в меню
-            }
-        }
-        System.out.println("Total funds single client in UAH: " + String.format("%.2f", totalFunds)); //печатаем - сумма средств
-        //одного клиента в гривне + результат, округленный до двух сотых (две цифры после запятой)
-    }
-
-    private static String selectCurrency() { //метод для выбора валюты (возвращает валюту в виде строки)
-        String queryRate = "SELECT r FROM RateOfExchange r"; //строка-запрос для таблицы курсов валют
-        Query query = em.createQuery(queryRate, RateOfExchange.class); //выполняем запрос
-        List<RateOfExchange> list = (List<RateOfExchange>) query.getResultList(); //создаем список из курсов валют
-
-        Scanner sc = new Scanner(System.in); //открываем поток для ввода данных с клавиатуры
-        String strCurrencyNames = ""; //создаем пустую строку строкаНазванийВалют
-        for (RateOfExchange rateOfExchange : list) { //проходимся с помощью for-each по каждому элементу из списка курса валют
-            strCurrencyNames += rateOfExchange.getCurrency() + " "; //с каждым новым проходом конкатенируем строкуНазванийВалют
-            //саму с собой через пробел
-        }
-
-        System.out.print("Select currency: " + strCurrencyNames); //предлогаем выбрать валюту из псевдо-списка валют(наша строкаНазванийВалют)
-        String strCurrency = sc.nextLine(); //читаем ответ пользователя
-        String currency = null; //создаем переменную валюта = null
-        for (RateOfExchange rateOfExchange : list) { //проходимся с помощью for-each по каждому элементу из списка курса валют
-            if (strCurrency.equals(rateOfExchange.getCurrency())) { //если введенная пользователем валюта совпадает с одной
-                //валютой из списка валют, то
-                currency = strCurrency; //присваиваем ее переменной валюта
-            }
-        }
-        return currency; //возвращаем выбранную пользователем валюту
+    } else {
+        System.out.println("Enter the account with the currency that matches!"); //виводимо - введіть рахунок з валютою, яка
+        //відповідає
+        return; //повертаємось у меню
     }
 }
-//Создать базу данных «Банк» с таблицами «Пользователи», «Транзакции», «Счета» и «Курсы валют».
-//Счет бывает 3-х видов: USD, EUR, UAH.
-//Написать запросы:
-// для пополнения счета в нужной валюте,
-// перевода средств с одного счета на другой,
-// конвертации валюты по курсу в рамках счетов одного пользователя.
-//Написать запрос для получения суммарных средств на счету одного пользователя в UAH (расчет по курсу)
+
+private static void transferFundsWithConversion(Scanner sc) { //метод для переведення коштів з адаптивною конвертацією валюти
+    System.out.print("Enter sender account id: "); //просимо ввести id рахунку-відправника
+    String strSenderAccountId = sc.nextLine(); //зчитуємо id рахунку-відправника
+    Long senderAccountId = Long.parseLong(strSenderAccountId); //парсимо id рахунку-відправника у число
+
+    Account senderAccount = em.find(Account.class, senderAccountId); //шукаємо рахунок-відправника за його id
+    if (senderAccount == null) { //якщо рахунок-відправник відсутній
+        System.out.println("Account not found!"); //виводимо - рахунок не знайдено
+        return; //повертаємось у меню
+    }
+
+    System.out.print("Enter beneficiary account id: "); //просимо ввести id рахунку-одержувача
+    String strBeneficiaryAccountId = sc.nextLine(); //зчитуємо id рахунку-одержувача
+    Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); //парсимо id рахунку-одержувача у число
+
+    Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId); //шукаємо рахунок-одержувача за id
+    if (beneficiaryAccount == null) { //якщо рахунок-одержувач відсутній
+        System.out.println("Account not found!"); //виводимо - рахунок не знайдено
+        return; //повертаємось у меню
+    }
+
+    System.out.print("Enter sum for transfer: "); //просимо ввести суму для переведення між рахунками
+    String strSum = sc.nextLine(); //зчитуємо відповідь користувача
+    double sum = Double.parseDouble(strSum); //парсимо суму коштів для переведення
+    if (sum > senderAccount.getBalance()) { //якщо сума переведення більша за суму на рахунку-відправнику
+        System.out.println("Error! Insufficiently money!"); //Помилка! Недостатньо коштів!
+        return; //повертаємось у меню
+    }
+
+    em.getTransaction().begin(); //починаємо транзакцію для роботи з об'єктами
+    try {
+        Transaction transaction = new Transaction(senderAccount.getClient(), senderAccount, beneficiaryAccount, sum); //створюємо транзакцію
+        em.persist(transaction); //зберігаємо об'єкт
+
+        if (!senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { //якщо валюти між рахунками не збігаються
+            String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; //запит на курс валюти
+
+            Query query = em.createQuery(queryRateOfExchange); //створюємо запит
+            query.setParameter("currency", senderAccount.getCurrency()); //для рахунку-відправника
+            RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); //отримуємо одиничний результат
+            double senderAccountRate = rateOfExchange.getRateToUAH(); //отримуємо курс рахунку-відправника до гривні
+
+            query.setParameter("currency", beneficiaryAccount.getCurrency()); //для рахунку-одержувача
+            rateOfExchange = (RateOfExchange) query.getSingleResult(); //отримуємо одиничний результат
+            double beneficiaryAccountRate = rateOfExchange.getRateToUAH(); //отримуємо курс рахунку-одержувача до гривні
+
+            double thisBalance; //буфер для математичних операцій з коштами
+            if (senderAccount.getCurrency().equals("UAH")) { //якщо валюта рахунку-відправника є гривнею
+                thisBalance = sum / beneficiaryAccountRate; //ініціалізуємо буфер = суму переведення ділимо на курс рахунку-одержувача
+                //відносно гривні
+            } else { //в іншому випадку
+                thisBalance = sum * senderAccountRate / beneficiaryAccountRate; //ініціалізуємо буфер = суму переведення
+                //множимо на курс до гривні рахунку-відправника та ділимо на курс до гривні рахунку-одержувача
+            }
+            senderAccount.withdrawFromBalance(sum); //з рахунку-відправника знімаємо переведені кошти (без конвертації)
+            beneficiaryAccount.replenishBalance(thisBalance); //на рахунок-одержувача додаємо кошти з буфера (з конвертацією)
+        } else { //якщо валюти збігаються
+            senderAccount.withdrawFromBalance(sum); //з рахунку-відправника знімаємо переведені кошти (без конвертації)
+            beneficiaryAccount.replenishBalance(sum); //на рахунок-одержувача додаємо переведені кошти (без конвертації)
+        }
+        em.getTransaction().commit(); //завершуємо транзакцію
+        System.out.println("Ok!");
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        em.getTransaction().rollback(); //якщо виникла помилка - скасовуємо всі зміни
+        return;
+    }
+}
+
+    private static void transferFundsWithConversionForSingleClient(Scanner sc) {
+    System.out.print("Введіть ID рахунку відправника: "); // просимо ввести id рахунку-відправника
+    String strSenderAccountId = sc.nextLine(); // зчитуємо id рахунку-відправника
+    Long senderAccountId = Long.parseLong(strSenderAccountId); // парсимо id рахунку-відправника в число
+
+    Account senderAccount = em.find(Account.class, senderAccountId); // знаходимо рахунок-відправник за його id
+    if (senderAccount == null) { // якщо рахунок-відправник відсутній, то
+        System.out.println("Рахунок не знайдений!"); // пишемо - рахунок не знайдений
+        return; // повертаємось в меню
+    }
+
+    System.out.print("Введіть ID рахунку отримувача: "); // просимо ввести id рахунку-отримувача
+    String strBeneficiaryAccountId = sc.nextLine(); // зчитуємо id рахунку-отримувача
+    Long beneficiaryAccountId = Long.parseLong(strBeneficiaryAccountId); // парсимо id рахунку-отримувача в число
+
+    Account beneficiaryAccount = em.find(Account.class, beneficiaryAccountId); // знаходимо рахунок-отримувач за його id
+    if (beneficiaryAccount == null) { // якщо рахунок-отримувач відсутній, то
+        System.out.println("Рахунок не знайдений!"); // пишемо - рахунок не знайдений
+        return; // повертаємось в меню
+    }
+
+    if (senderAccount.getClient().equals(beneficiaryAccount.getClient())) { // якщо рахунки належать одному клієнту
+        System.out.print("Введіть суму для переказу: "); // просимо ввести суму для переказу між рахунками
+        String strSum = sc.nextLine(); // читаємо відповідь користувача
+        double sum = Double.parseDouble(strSum); // парсимо суму переказу
+        if (sum > senderAccount.getBalance()) { // якщо сума переказу більша за баланс на рахунку-відправнику, то
+            System.out.println("Помилка! Недостатньо коштів!"); // помилка! Недостатньо коштів!
+            return; // повертаємось в меню
+        }
+
+        em.getTransaction().begin(); // запускаємо транзакцію для роботи з об'єктами
+        try {
+            Transaction transaction = new Transaction(senderAccount.getClient(), senderAccount, beneficiaryAccount, sum); // створюємо транзакцію
+            em.persist(transaction); // зберігаємо об'єкт транзакції
+
+            if (!senderAccount.getCurrency().equals(beneficiaryAccount.getCurrency())) { // якщо валюти між рахунками не співпадають, то
+                String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; // запит на курс валюти
+
+                Query query = em.createQuery(queryRateOfExchange); // запит
+                query.setParameter("currency", senderAccount.getCurrency()); // для рахунку-відправника
+                RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); // отримуємо курс для відправника
+                double senderAccountRate = rateOfExchange.getRateToUAH(); // курс рахунку-відправника до гривні
+
+                query.setParameter("currency", beneficiaryAccount.getCurrency()); // для рахунку-отримувача
+                rateOfExchange = (RateOfExchange) query.getSingleResult(); // отримуємо курс для отримувача
+                double beneficiaryAccountRate = rateOfExchange.getRateToUAH(); // курс рахунку-отримувача до гривні
+
+                double thisBalance; // змінна для математичних операцій з коштами
+                if (senderAccount.getCurrency().equals("UAH")) { // якщо валюта рахунку-відправника - гривня
+                    thisBalance = sum / beneficiaryAccountRate; // конвертуємо суму з UAH на валюту отримувача
+                } else { // якщо валюти не співпадають
+                    thisBalance = sum * senderAccountRate / beneficiaryAccountRate; // конвертуємо валюту з відправника на отримувача
+                }
+                senderAccount.withdrawFromBalance(sum); // знімаємо кошти з рахунку-відправника (без конвертації)
+                beneficiaryAccount.replenishBalance(thisBalance); // поповнюємо рахунок-отримувач (з конвертацією)
+            } else { // якщо валюти співпадають між рахунками
+                senderAccount.withdrawFromBalance(sum); // знімаємо кошти з рахунку-відправника (без конвертації)
+                beneficiaryAccount.replenishBalance(sum); // поповнюємо рахунок-отримувач (без конвертації)
+            }
+            em.getTransaction().commit(); // завершення транзакції
+            System.out.println("Ок!");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback(); // якщо сталася помилка - скасовуємо транзакцію
+            return;
+        }
+    } else { // якщо рахунки належать різним клієнтам
+        System.out.println("Помилка! Клієнти не співпадають!"); // пишемо - помилка! Клієнти не співпадають!
+    }
+}
+
+private static void totalFundsSingleClientInUAH(Scanner sc) { // метод для відображення сумарних коштів на рахунку одного клієнта в UAH
+    System.out.print("Введіть ім'я клієнта: "); // просимо ввести ім'я клієнта
+    String strClientName = sc.nextLine(); // зчитуємо ім'я клієнта
+
+    String queryAccounts = "SELECT a FROM Account a"; // запит на вибір всіх рахунків
+    Query query = em.createQuery(queryAccounts, Account.class); // запит
+    List<Account> list = (List<Account>) query.getResultList(); // створюємо список для результатів
+
+    double totalFunds = 0.0; // змінна для підсумку коштів
+
+    for (Account account : list) { // для кожного рахунку
+        if (account.getClient().getName().equals(strClientName)) { // якщо ім'я рахунку співпадає з введеним
+            account = em.getReference(Account.class, account.getId()); // шукаємо рахунок по id
+            String queryRateOfExchange = "SELECT r from RateOfExchange r WHERE currency = :currency"; // запит на курс валюти
+            query = em.createQuery(queryRateOfExchange); // запит
+            query.setParameter("currency", account.getCurrency()); // для рахунку
+            RateOfExchange rateOfExchange = (RateOfExchange) query.getSingleResult(); // отримуємо курс
+            double thisAccountRate = rateOfExchange.getRateToUAH(); // курс рахунку до гривні
+            double balanceInUAH = thisAccountRate * account.getBalance(); // перерахунок балансу в UAH
+            totalFunds += balanceInUAH; // додаємо до загальної суми
+            System.out.println(account); // виводимо рахунок для перевірки
+        } else { // якщо рахунок не знайдений
+            System.out.println("Рахунок не знайдений!"); // повідомляємо про помилку
+            return; // повертаємось в меню
+        }
+    }
+    System.out.println("Загальні кошти одного клієнта в UAH: " + String.format("%.2f", totalFunds)); // виводимо підсумкову суму
+}
+
+    private static String selectCurrency() { //метод для вибору валюти (повертає валюту у вигляді рядка)
+    String queryRate = "SELECT r FROM RateOfExchange r"; //стрічка-запит для таблиці курсів валют
+    Query query = em.createQuery(queryRate, RateOfExchange.class); //виконуємо запит
+    List<RateOfExchange> list = (List<RateOfExchange>) query.getResultList(); //створюємо список з курсів валют
+
+    Scanner sc = new Scanner(System.in); //відкриваємо потік для введення даних з клавіатури
+    String strCurrencyNames = ""; //створюємо порожній рядок для зберігання назв валют
+    for (RateOfExchange rateOfExchange : list) { //проходимо через кожен елемент зі списку курсів валют
+        strCurrencyNames += rateOfExchange.getCurrency() + " "; //додаємо назву валюти до рядка strCurrencyNames
+    }
+
+    System.out.print("Select currency: " + strCurrencyNames); //пропонуємо вибрати валюту з доступних валют
+    String strCurrency = sc.nextLine(); //читаємо відповідь користувача
+    String currency = null; //створюємо змінну для валюти = null
+    for (RateOfExchange rateOfExchange : list) { //проходимо через кожен елемент списку курсів валют
+        if (strCurrency.equals(rateOfExchange.getCurrency())) { //якщо введена валюта збігається з однією з валют списку
+            currency = strCurrency; //присвоюємо її змінній currency
+        }
+    }
+    return currency; //повертаємо вибрану користувачем валюту
+  }
+}
+// Створити базу даних «Банк» з таблицями «Користувачі», «Транзакції», «Рахунки» та «Курси валют».
+//Рахунок буває 3-х видів: USD, EUR, UAH.
+//Написати запити:
+// для поповнення рахунку у потрібній валюті,
+// Переказ коштів з одного рахунку на інший,
+// Конвертація валюти за курсом в рамках рахунків одного користувача.
+//Написати запит для отримання сумарних коштів на рахунку одного користувача в UAH (розрахунок за курсом)
 
