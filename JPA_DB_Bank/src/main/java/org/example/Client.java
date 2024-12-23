@@ -4,32 +4,32 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity //аннотация, которая указывает Hibernate, что наш класс специальный и его обьекты нужно хранить в DataBase
-@Table(name = "Clients") //устанавливаем название таблице
+@Entity //Анотація, яка вказує Hibernate, що наш клас є спеціальним і його об'єкти потрібно зберігати в базі даних
+@Table(name = "Clients") //Встановлюємо назву таблиці
 public class Client {
-    @Id //аннотация, с помощью которой задаем PrimaryKey
-    @GeneratedValue //автогенерация номера ID
-    @Column(name = "id_Client") //устанавливаем имя для колонки таблицы
+    @Id //Анотація, за допомогою якої задаємо PrimaryKey
+    @GeneratedValue //Автогенерація номера ID
+    @Column(name = "id_Client") //Встановлюємо ім'я для колонки таблиці
     private Long id;
 
-    @Column(name = "name_Client", nullable = false) //устанавливаем имя для колонки таблицы, которо не межет быть пустым
+    @Column(name = "name_Client", nullable = false) //Встановлюємо ім'я для колонки таблиці, яка не може бути пустою
     private String name;
 
-    @Column(name = "phone_Client", unique = true) //устанавливаем имя для колонки таблицы, поле должно быть уникальным
+    @Column(name = "phone_Client", unique = true) //Встановлюємо ім'я для колонки таблиці, поле повинно бути унікальним
     private Integer phone;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL) //CascadeType.ALL означает, что все действия, которые мы
-    // выполняем с родительским объектом, нужно повторить и для его зависимых объектов.
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL) //CascadeType.ALL означає, що всі дії, які ми
+    //виконуємо з батьківським об'єктом, потрібно повторити і для його залежних об'єктів.
     private List<Account> accounts = new ArrayList<>();
 
-    public Client() {} //конструктор по-умолчанию
+    public Client() {} //Конструктор за замовчуванням
 
-    public Client(String name, Integer phone) { //конструктор данного класса с параметрами для будущих обьектов
+    public Client(String name, Integer phone) { //Конструктор цього класу з параметрами для майбутніх об'єктів
         this.name = name;
         this.phone = phone;
     }
 
-    //Геттеры и Сеттеры
+    //Геттери та Сеттери
     public Long getId() {
         return id;
     }
@@ -62,15 +62,15 @@ public class Client {
         this.accounts = accounts;
     }
 
-    public void addAccount(Account account) { //метод для добавления счета в список счетов
+    public void addAccount(Account account) { //Метод для додавання рахунку в список рахунків
         if(!accounts.contains(account)) {
             accounts.add(account);
             account.setClient(this);
         }
     }
 
-    @Override //переопределяем метод
-    public String toString() { //к строковому виду
+    @Override //Переопреділяємо метод
+    public String toString() { //До строкового виду
         return "Client{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
