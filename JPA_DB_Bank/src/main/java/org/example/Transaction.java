@@ -2,32 +2,32 @@ package org.example;
 
 import javax.persistence.*;
 
-@Entity //аннотация, которая указывает Hibernate, что наш класс специальный и его обьекты нужно хранить в DataBase
-@Table(name = "Transactions") //устанавливаем название таблице
+@Entity // Аннотація, яка вказує Hibernate, що наш клас є спеціальним, і його об'єкти потрібно зберігати в базі даних
+@Table(name = "Transactions") // Встановлюємо назву таблиці
 public class Transaction {
-    @Id //аннотация, с помощью которой задаем PrimaryKey
-    @GeneratedValue //автогенерация номера ID
-    @Column(name = "id_Transaction") //устанавливаем имя для колонки таблицы
+    @Id // Аннотація, з допомогою якої задаємо PrimaryKey
+    @GeneratedValue // Автогенерація номера ID
+    @Column(name = "id_Transaction") // Встановлюємо ім'я для колонки таблиці
     private Long id;
 
-    @ManyToOne() //аннотация @ManyToOne говорит Hibernate, что много сущностей из других таблиц могут ссылаться на одну сущность Client
-    @JoinColumn(name = "client_Id") //аннотация @JoinColumn указывает имя колонки, из которой будет браться id
+    @ManyToOne() // Аннотація @ManyToOne вказує Hibernate, що багато сутностей з інших таблиць можуть посилатись на одну сутність Client
+    @JoinColumn(name = "client_Id") // Аннотація @JoinColumn вказує ім'я колонки, з якої буде братись id
     private Client client;
 
-    @ManyToOne //аннотация @ManyToOne говорит Hibernate, что много сущностей из других таблиц могут ссылаться на одну сущность Account
-    @JoinColumn(name = "beneficiary_Id_Account") //аннотация @JoinColumn указывает имя колонки, из которой будет браться id
+    @ManyToOne // Аннотація @ManyToOne вказує Hibernate, що багато сутностей з інших таблиць можуть посилатись на одну сутність Account
+    @JoinColumn(name = "beneficiary_Id_Account") // Аннотація @JoinColumn вказує ім'я колонки, з якої буде братись id
     private Account beneficiaryIdAccount;
 
-    @ManyToOne //аннотация @ManyToOne говорит Hibernate, что много сущностей из других таблиц могут ссылаться на одну сущность Account
-    @JoinColumn(name = "sender_Id_Account") //аннотация @JoinColumn указывает имя колонки, из которой будет браться id
+    @ManyToOne // Аннотація @ManyToOne вказує Hibernate, що багато сутностей з інших таблиць можуть посилатись на одну сутність Account
+    @JoinColumn(name = "sender_Id_Account") // Аннотація @JoinColumn вказує ім'я колонки, з якої буде братись id
     private Account senderIdAccount;
 
-    @Column(name = "balancePlus_Transaction") //устанавливаем имя для колонки таблицы
+    @Column(name = "balancePlus_Transaction") // Встановлюємо ім'я для колонки таблиці
     private Double balancePlus;
 
-    public Transaction() {} //конструктор по-умолчанию
+    public Transaction() {} // Конструктор за замовчуванням
 
-    //конструктор данного класса с параметрами для будущих обьектов
+    // Конструктор цього класу з параметрами для майбутніх об'єктів
     public Transaction(Client client, Account beneficiaryIdAccount, Account senderIdAccount, Double balancePlus) {
         this.client = client;
         this.beneficiaryIdAccount = beneficiaryIdAccount;
@@ -35,7 +35,7 @@ public class Transaction {
         this.balancePlus = balancePlus;
     }
 
-    //Геттеры и Сеттеры
+    // Геттери та Сеттери
     public Long getId() {
         return id;
     }
@@ -76,8 +76,8 @@ public class Transaction {
         this.balancePlus = balancePlus;
     }
 
-    @Override //переопределяем метод
-    public String toString() { //к строковому виду
+    @Override // Перевизначаємо метод
+    public String toString() { // До строкового виду
         return "Transaction{" +
                 "id=" + id +
                 ", client=" + client +
